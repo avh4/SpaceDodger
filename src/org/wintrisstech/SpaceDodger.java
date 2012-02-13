@@ -56,10 +56,43 @@ public class SpaceDodger extends JComponent implements ActionListener, MouseList
         if (wave == 1) {
             aliens = new Alien[10];
             for (int i = 0; i < aliens.length; i++) {
-                aliens[i] = new PlainAlien();
+                aliens[i] = new RedAlien();
             }
         }
         if (wave == 2) {
+            aliens = new Alien[30];
+            for (int i = 0; i < aliens.length; i++) {
+                aliens[i] = new RedAlien();
+            }
+        }
+        if (wave == 3) {
+            aliens = new Alien[20];
+            for (int i = 0; i < aliens.length; i++) {
+                aliens[i] = new BlueAlien();
+            }
+        }
+        if (wave == 4) {
+            aliens = new Alien[20];
+            for (int i = 0; i < aliens.length; i++) {
+                aliens[i] = new GreenAlien();
+            }
+        }
+        if (wave == 5) {
+            aliens = new Alien[80];
+            for (int i = 0; i < 20; i++) {
+                aliens[i] = new RedAlien();
+            }
+            for (int i = 20; i < 40; i++) {
+                aliens[i] = new BlueAlien();
+            }
+            for (int i = 40; i < 60; i++) {
+                aliens[i] = new GreenAlien();
+            }
+            for (int i = 60; i < aliens.length; i++) {
+                aliens[i] = new BlackAlien();
+            }
+        }
+        if (wave == 6) {
             gameWon = true;
         }
     }
@@ -79,7 +112,7 @@ public class SpaceDodger extends JComponent implements ActionListener, MouseList
         for (int i = 0; i < aliens.length; i++) {
             aliens[i].paint(g2);
         }
-        
+
         if (gameOver) {
             drawMessage(g2, "You've been hit!");
         } else if (gameWon) {
@@ -111,14 +144,14 @@ public class SpaceDodger extends JComponent implements ActionListener, MouseList
             repaint();
             return;
         }
-        
+
         waveMessageCounter -= 1;
 
         // Update the aliens
         for (int i = 0; i < aliens.length; i++) {
             aliens[i].update(ship);
         }
-        
+
         // Count the visible aliens
         int visibleAliens = 0;
         for (int i = 0; i < aliens.length; i++) {
@@ -132,16 +165,15 @@ public class SpaceDodger extends JComponent implements ActionListener, MouseList
         if (visibleAliens == 0) {
             startWave(wave + 1);
         }
-        
+
         // Check if the ship has collided with any of the aliens
-        for(int i = 0; i < aliens.length; i++) {
+        for (int i = 0; i < aliens.length; i++) {
             // Check for a collision of the alien with the ship
             if (aliens[i].visible
                     && ship.x < aliens[i].x + aliens[i].w
                     && aliens[i].x < ship.x + ship.w
                     && ship.y < aliens[i].y + aliens[i].h
-                    && aliens[i].y < ship.y + ship.h)
-            {
+                    && aliens[i].y < ship.y + ship.h) {
                 gameOver = true;
             }
         }
